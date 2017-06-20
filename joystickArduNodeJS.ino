@@ -1,8 +1,15 @@
 #define X A0
 #define Y A1
+#define F 7
+#define E 6
+#define D 5
+#define C 4
+#define B 3
+#define A 2
 
 unsigned short xv = 1;
 unsigned short yv = 1;
+bool * buttons[6];
 bool sendData = false;
 
 void setup() {
@@ -20,7 +27,9 @@ void setup() {
       //Serial.println(rec);
     }
   } while(rec.lastIndexOf("OK")==-1);
-  //Serial.write("OK!");
+  for(int i=0;i<6;i++) {
+    buttons[i] = 0;
+  }
 }
 
 void loop() {
@@ -45,8 +54,18 @@ void loop() {
     yv = 1;
     sendData = true;
   }
+  for(int i=2;i<=7;i++) {
+    if(digitalRead(i)!=buttons[i-2]) {
+      sendData = true;
+      buttons[i-2] = digitalRead(i);
+    }
+  }
   if(sendData) {
-    Serial.print("["+String(xv)+";"+String(yv)+"]!");
+    Serial.print("["+String(xv)+";"+String(yv)+"]");
+    Serial.print("[");
+    for(int i=2;i<=7;i++)
+      Serial.print(buttons[i-2]?0:1);
+    Serial.print("]!");
     //Serial.flush();
     sendData = false;
   }
