@@ -2,7 +2,7 @@
 
 var SerialPort = require("serialport");
 var robot = require("robotjs");
-var arduPort;
+var arduPort = "";
 var port;
 var controls = {
     x:{0:'left',1:'',2:'right'},
@@ -30,11 +30,27 @@ function findConnection() {
             });
         });
     //}*/
-    arduPort = "COM7";
-    start();
+    SerialPort.list(function(err,ports) {
+        ports.forEach(function(port){
+            console.log("Port: "+port.comName+"\nDevice: "+port.manufacturer);
+        })
+    });
+    for(k in process.argv) {
+        var val = process.argv[k];
+        console.log("Arg %s is %s",k,val);
+        if(val=="-port") {
+            arduPort = process.argv[Number(k)+1];
+            console.log("Using port %s",arduPort);
+            connect();
+        }
+    }
+    if(arduPort=="") {
+        console.log("node %s -port SERIALPORT",process.argv[1]);
+    }
+    //arduPort = "COM7";
 }
 
-function start() {
+function connect() {
     port = new SerialPort(arduPort,
     {baudRate: 9600,
     parser: SerialPort.parsers.readline("!")});
