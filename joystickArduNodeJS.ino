@@ -19,7 +19,7 @@ bool * buttons[6];
 bool sendData = false;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(38400/*9600*/);
   Serial.print("PROYECT_JOY!");
   unsigned long timeM = 0;
   String rec;

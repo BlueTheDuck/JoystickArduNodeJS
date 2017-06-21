@@ -19,17 +19,19 @@ function findConnection() {
     console.log("Searching for arduino");
     arduPort = "";
     //while(arduPort=="") {
-        SerialPort.list(function(err,ports) {
+        /*SerialPort.list(function(err,ports) {
             ports.forEach(function(port) {
                 console.log("Puerto: "+port.comName);
                 console.log("Dispositivo: "+port.manufacturer);
                 if(port.manufacturer.indexOf("Arduino")>-1) {
-                    arduPort = port.comName;
+                    arduPort = "COM7"//port.comName;
                     start();
                 }
             });
         });
-    //}
+    //}*/
+    arduPort = "COM7";
+    start();
 }
 
 function start() {
@@ -41,7 +43,7 @@ function start() {
         console.log("Port opened");
     })
     port.on('data',connector);
-    port.on('disconnect',function(){console.log("ERROR: Disconnection");port.removeListener('data',handle);joystick = {x:1,y:1};handle("[1;1]");findConnection()});
+    port.on('disconnect',function(){console.log("ERROR: Disconnection");port.removeListener('data',handle);joystick = {x:1,y:1};handle("[1;1][000000]");findConnection()});
 }
 
 function connector(data) {
