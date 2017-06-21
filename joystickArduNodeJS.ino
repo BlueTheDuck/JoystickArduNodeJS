@@ -6,6 +6,12 @@
 #define C 4
 #define B 3
 #define A 2
+#define MIN 0
+#define MAX 1024
+#define MID 512
+#define L (MID-MID/2)
+#define H (MID+MID/2)
+
 
 unsigned short xv = 1;
 unsigned short yv = 1;
@@ -34,23 +40,23 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if(analogRead(X)<400&&xv!=0) {
+  if(analogRead(X)<L&&xv!=0) {
     xv = 0;
     sendData = true;
-  } else if(analogRead(X)>700&&xv!=2) {
+  } else if(analogRead(X)>H&&xv!=2) {
     xv = 2;
     sendData = true;
-  } else if(analogRead(X)>400&&analogRead(X)<700&&xv!=1) {
+  } else if(analogRead(X)>L&&analogRead(X)<H&&xv!=1) {
     xv = 1;
     sendData = true;
   }
-  if(analogRead(Y)<400&&yv!=0) {
+  if(analogRead(Y)<L&&yv!=0) {
     yv = 0;
     sendData = true;
-  } else if(analogRead(Y)>700&&yv!=2) {
+  } else if(analogRead(Y)>H&&yv!=2) {
     yv = 2;
     sendData = true;
-  } else if(analogRead(Y)>400&&analogRead(Y)<700&&yv!=1) {
+  } else if(analogRead(Y)>L&&analogRead(Y)<H&&yv!=1) {
     yv = 1;
     sendData = true;
   }
