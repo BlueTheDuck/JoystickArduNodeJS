@@ -7,13 +7,14 @@ var port;
 var controls = {
     x:{0:'left',1:'',2:'right'},
     y:{0:'down',1:'',2:'up'},
-    a:{0:'',1:''},
-    b:{0:'',1:''},
-    c:{0:'',1:''},
-    d:{0:'',1:''},
+    a:{0:'',1:'up'},
+    b:{0:'',1:'right'},
+    c:{0:'',1:'down'},
+    d:{0:'',1:'left'},
     e:{0:'',1:'5'},
     f:{0:'',1:'1'},};
 var joystick = {x:1,y:1,a:0,b:0,c:0,d:0,e:0,f:0}
+var connected = false;
 
 function findConnection() {
     console.log("Searching for arduino");
@@ -59,6 +60,7 @@ function connect() {
         console.log("Port opened");
     })
     port.on('data',connector);
+    setTimeout(restartArdu,2000);
     port.on('disconnect',function(){console.log("ERROR: Disconnection");port.removeListener('data',handle);joystick = {x:1,y:1};handle("[1;1][000000]");findConnection()});
 }
 
@@ -71,6 +73,14 @@ function connector(data) {
         port.flush();
         port.removeListener('data',connector);
         port.on('data',handle)
+        connected = true;
+    }
+}
+function restartArdu() {
+    if(connected==false) {
+        port.write("RST");
+        console.log("Restarting Ardu");
+        setTimeout(restartArdu,2000);
     }
 }
 
@@ -129,6 +139,7 @@ setInterval(function() {
 },100)
 
 function kToggle(key,sta) {
+    console.log(key);
     if(key=="")
         return;
     robot.keyToggle(key,sta);

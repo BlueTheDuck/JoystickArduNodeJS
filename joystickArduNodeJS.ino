@@ -17,12 +17,12 @@ unsigned short xv = 1;
 unsigned short yv = 1;
 bool * buttons[6];
 bool sendData = false;
+String rec;
 
 void setup() {
   Serial.begin(38400/*9600*/);
   Serial.print("PROYECT_JOY!");
   unsigned long timeM = 0;
-  String rec;
   do {
     if(timeM+1000<millis()) {
       timeM = millis();
@@ -37,6 +37,8 @@ void setup() {
     buttons[i] = 0;
   }
 }
+
+void(* reset)(void) = 0;
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -74,5 +76,12 @@ void loop() {
     Serial.print("]!");
     //Serial.flush();
     sendData = false;
+  }
+  while(Serial.available()>0) {
+    rec+=Serial.readString();
+  }
+  if(rec.lastIndexOf("RST")>0) {
+    rec = "";
+    reset();
   }
 }
