@@ -1,0 +1,24 @@
+{
+  "name": "JoystickArduNodeJS",
+  "version": "1.0.0",
+  "description": "JoystickArduNodeJS",
+  "main": "joystickArduNodeJS.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gamer787/JoystickArduNodeJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gamer787/JoystickArduNodeJS/issues"
+  },
+  "homepage": "https://github.com/gamer787/JoystickArduNodeJS#readme",
+  "dependencies": {
+    "robotjs": "^3.0.0",
+    "serialport": "^3.0.0"
+  }
+}
